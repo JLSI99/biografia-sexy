@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-// 1. IMPORTA TU FOTO AQUÍ (Asegúrate de que esté en src/assets/mi-foto.jpg)
+// 1. IMPORTA TU FOTO AQUÍ
 import miFoto from "./assets/guapoide.jpeg";
 
 function App() {
@@ -16,11 +16,6 @@ function App() {
           JL Developer<span className="text-blue-600 animate-pulse">.</span>
         </h1>
 
-        {/* 
-            CENTRADOR MAESTRO: 
-            Usamos margin: '0 auto' para que el bloque de 180px se coloque 
-            exactamente en el medio del header.
-        */}
         <div style={{ display: 'block', width: '100%', marginTop: '2.5rem', marginBottom: '2rem' }}>
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
@@ -35,17 +30,31 @@ function App() {
               position: "relative" 
             }}
           >
-            {/* Capa de Resplandor (Glow) */}
-            <div 
-              className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full blur-2xl opacity-20 group-hover:opacity-40 transition duration-1000"
+            {/* 
+                CAPA DE RESPLANDOR DINÁMICO (GLOW)
+                - animate: Crea el efecto de pulsación (breathing) variando la opacidad.
+                - group-hover: Aumenta la opacidad y el brillo al pasar el mouse.
+            */}
+            <motion.div 
+              className="absolute inset-0 bg-gradient-to-tr from-blue-500 via-indigo-500 to-cyan-400 rounded-full blur-xl group-hover:blur-2xl transition-all duration-700"
+              animate={{ 
+                opacity: [0.4, 0.7, 0.4],
+                scale: [1, 1.05, 1] 
+              }}
+              transition={{ 
+                duration: 4, 
+                repeat: Infinity, 
+                ease: "easeInOut" 
+              }}
               style={{ zIndex: 0 }}
-            ></div>
+            ></motion.div>
 
             {/* Imagen con Estilos Blindados */}
-            <img
+            <motion.img
+              whileHover={{ scale: 1.05 }} // Pequeño zoom al pasar el mouse
               src={miFoto}
               alt="Jorgito"
-              className="grayscale hover:grayscale-0 transition-all duration-700 shadow-2xl border-2 border-slate-800"
+              className="grayscale hover:grayscale-0 transition-all duration-700 shadow-2xl border-2 border-white/10"
               style={{
                 width: "180px",
                 height: "180px",
