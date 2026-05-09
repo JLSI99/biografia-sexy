@@ -13,7 +13,7 @@ function App() {
         className="max-w-5xl mx-auto text-center border-b border-slate-800 pb-16"
       >
         <h1 className="text-7xl md:text-9xl font-black tracking-tighter text-white uppercase">
-          JORGITO<span className="text-blue-600 animate-pulse">.</span>
+          JL Developer<span className="text-blue-600 animate-pulse">.</span>
         </h1>
 
         {/* 
