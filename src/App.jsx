@@ -86,7 +86,7 @@ function App() {
 
       <footer className="mt-40 mb-10 text-center">
         <p className="text-slate-700 uppercase tracking-[0.5em] text-xs">
-          &copy; 2026 Crafted by Jorgito Software Labs
+          &copy; 2026 Crafted by JL-Developments
         </p>
       </footer>
     </div>
