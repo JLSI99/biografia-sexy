@@ -11,7 +11,7 @@ function App() {
         className="max-w-4xl mx-auto border-b border-slate-800 pb-10"
       >
         <h1 className="text-5xl md:text-7xl font-bold tracking-tighter text-white">
-          CHAVITO <span className="text-blue-500">.</span>
+          JORGITO <span className="text-blue-500">.</span>
         </h1>
         <p className="mt-4 text-xl text-slate-400 italic">
           Arquitecto de Sistemas | Mentor de Mentes | Poeta del Binario
