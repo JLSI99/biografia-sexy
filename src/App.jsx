@@ -20,7 +20,7 @@ function App() {
         {/* Espacio para la Imagen Sexy y Central */}
         <motion.div 
           initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
+          animate={{ scale: 0.4, opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.8 }}
           className="mt-10 flex justify-center"
         >
