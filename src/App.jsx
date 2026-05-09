@@ -17,19 +17,24 @@ function App() {
         </h1>
 
         {/* Espacio para la Imagen Sexy y Central */}
+        {/* Espacio para la Imagen Sexy y Central */}
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.8 }}
           className="mt-10 flex justify-center"
         >
-          {/* Reducimos el contenedor relativo al tamaño de la imagen para que el glow sea preciso */}
-          <div className="relative group w-32 h-32 md:w-40 md:h-40">
+          {/* Forzamos el tamaño con style para evitar conflictos de Tailwind */}
+          <div
+            className="relative group"
+            style={{ width: "160px", height: "160px" }}
+          >
             <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
             <img
               src={miFoto}
               alt="Jorgito"
               className="relative w-full h-full rounded-full object-cover border-2 border-slate-800 grayscale hover:grayscale-0 transition-all duration-700 shadow-2xl"
+              style={{ width: "100%", height: "100%", display: "block" }}
             />
           </div>
         </motion.div>
