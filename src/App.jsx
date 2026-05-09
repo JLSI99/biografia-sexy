@@ -22,32 +22,23 @@ function App() {
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.8 }}
-          /* 
-     Aseguramos que el contenedor de la animación ocupe todo el ancho 
-     disponible para que el centrado sea real.
-  */
-          className="mt-10 flex justify-center items-center w-full"
+          className="mt-10 w-full flex justify-center" // Añadimos w-full y justify-center
         >
           <div
-            className="relative group flex justify-center items-center"
-            style={{ width: "200px", height: "200px" }}
+            className="relative group"
+            style={{
+              width: "200px",
+              height: "200px",
+              marginLeft: "auto", // Esto empuja desde la izquierda
+              marginRight: "auto", // Esto empuja desde la derecha
+            }}
           >
-            {/* 
-        El efecto Glow: Lo ponemos con inset-0 y h-full w-full 
-        para que nazca exactamente desde el mismo centro que la imagen.
-    */}
             <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
-
             <img
               src={miFoto}
               alt="Jorgito"
-              className="relative rounded-full object-cover border-2 border-slate-800 grayscale hover:grayscale-0 transition-all duration-700 shadow-2xl"
-              style={{
-                width: "100%",
-                height: "100%",
-                display: "block",
-                objectPosition: "center", // Fuerza a que el recorte sea central
-              }}
+              className="relative w-full h-full rounded-full object-cover border-2 border-slate-800 grayscale hover:grayscale-0 transition-all duration-700 shadow-2xl"
+              style={{ display: "block" }}
             />
           </div>
         </motion.div>
