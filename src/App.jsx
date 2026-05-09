@@ -16,18 +16,24 @@ function App() {
           JORGITO<span className="text-blue-600 animate-pulse">.</span>
         </h1>
 
-        {/* Espacio para la Imagen Sexy y Central */}
-        <div className="flex justify-center items-center w-full mt-12 mb-8">
+        {/* 
+            CENTRADOR MAESTRO: 
+            Usamos margin: '0 auto' para que el bloque de 180px se coloque 
+            exactamente en el medio del header.
+        */}
+        <div style={{ display: 'block', width: '100%', marginTop: '2.5rem', marginBottom: '2rem' }}>
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.8 }}
             className="relative group"
-            /* 
-               Definimos un tamaño estricto para el contenedor. 
-               180px es un tamaño ideal para no saturar el header.
-            */
-            style={{ width: "180px", height: "180px" }}
+            style={{ 
+              width: "180px", 
+              height: "180px", 
+              marginLeft: "auto", 
+              marginRight: "auto",
+              position: "relative" 
+            }}
           >
             {/* Capa de Resplandor (Glow) */}
             <div 
@@ -35,21 +41,18 @@ function App() {
               style={{ zIndex: 0 }}
             ></div>
 
-            {/* 
-                Imagen con Estilos Blindados:
-                Forzamos el redondeo y el recorte (object-fit) por CSS inline 
-                para evitar que Tailwind sea ignorado por el navegador.
-            */}
+            {/* Imagen con Estilos Blindados */}
             <img
               src={miFoto}
               alt="Jorgito"
-              className="relative grayscale hover:grayscale-0 transition-all duration-700 shadow-2xl border-2 border-slate-800"
+              className="grayscale hover:grayscale-0 transition-all duration-700 shadow-2xl border-2 border-slate-800"
               style={{
                 width: "180px",
                 height: "180px",
-                borderRadius: "50%", // Garantiza que sea un círculo
-                objectFit: "cover", // Garantiza que no se estire
+                borderRadius: "50%", 
+                objectFit: "cover", 
                 display: "block",
+                position: "relative",
                 zIndex: 10
               }}
             />
