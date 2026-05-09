@@ -17,35 +17,44 @@ function App() {
         </h1>
 
         {/* Espacio para la Imagen Sexy y Central */}
-        {/* Espacio para la Imagen Sexy y Central */}
-        <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.8 }}
-          /* z-10 asegura que este contenedor esté por encima del fondo y otros textos */
-          className="mt-10 flex justify-center items-center w-full relative z-10"
-        >
-          <div
+        <div className="flex justify-center items-center w-full mt-12 mb-8">
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
             className="relative group"
-            /* Forzamos el tamaño aquí para que el contenedor NO crezca */
+            /* 
+               Definimos un tamaño estricto para el contenedor. 
+               180px es un tamaño ideal para no saturar el header.
+            */
             style={{ width: "180px", height: "180px" }}
           >
-            {/* Glow: z-0 */}
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full blur-xl opacity-25 group-hover:opacity-50 transition duration-1000 z-0"></div>
+            {/* Capa de Resplandor (Glow) */}
+            <div 
+              className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full blur-2xl opacity-20 group-hover:opacity-40 transition duration-1000"
+              style={{ zIndex: 0 }}
+            ></div>
 
-            {/* Imagen: z-10 para estar sobre el glow, pero contenida */}
+            {/* 
+                Imagen con Estilos Blindados:
+                Forzamos el redondeo y el recorte (object-fit) por CSS inline 
+                para evitar que Tailwind sea ignorado por el navegador.
+            */}
             <img
               src={miFoto}
               alt="Jorgito"
-              className="relative rounded-full object-cover border-2 border-slate-800 grayscale hover:grayscale-0 transition-all duration-700 shadow-2xl z-10"
+              className="relative grayscale hover:grayscale-0 transition-all duration-700 shadow-2xl border-2 border-slate-800"
               style={{
                 width: "180px",
                 height: "180px",
+                borderRadius: "50%", // Garantiza que sea un círculo
+                objectFit: "cover", // Garantiza que no se estire
                 display: "block",
+                zIndex: 10
               }}
             />
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
 
         <p className="mt-8 text-2xl md:text-3xl text-slate-400 font-light tracking-wide max-w-2xl mx-auto">
           Ingeniero de Sistemas.{" "}
