@@ -1,11 +1,10 @@
 import { motion } from "framer-motion";
-// 1. IMPORTA TU FOTO AQUÍ
 import miFoto from "./assets/guapoide.jpeg";
 
 function App() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-200 font-sans p-6 md:p-20 selection:bg-blue-500/30">
-      {/* Header con tipografía imponente */}
+      
       <motion.header
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -30,11 +29,6 @@ function App() {
               position: "relative" 
             }}
           >
-            {/* 
-                CAPA DE RESPLANDOR DINÁMICO (GLOW)
-                - animate: Crea el efecto de pulsación (breathing) variando la opacidad.
-                - group-hover: Aumenta la opacidad y el brillo al pasar el mouse.
-            */}
             <motion.div 
               className="absolute inset-0 bg-gradient-to-tr from-blue-500 via-indigo-500 to-cyan-400 rounded-full blur-xl group-hover:blur-2xl transition-all duration-700"
               animate={{ 
@@ -49,9 +43,8 @@ function App() {
               style={{ zIndex: 0 }}
             ></motion.div>
 
-            {/* Imagen con Estilos Blindados */}
             <motion.img
-              whileHover={{ scale: 1.05 }} // Pequeño zoom al pasar el mouse
+              whileHover={{ scale: 1.05 }} 
               src={miFoto}
               alt="Jorgito"
               className="grayscale hover:grayscale-0 transition-all duration-700 shadow-2xl border-2 border-white/10"
@@ -75,9 +68,8 @@ function App() {
         </p>
       </motion.header>
 
-      {/* Grid de Contenido */}
       <main className="max-w-5xl mx-auto mt-24 grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
-        {/* Sección Biográfica */}
+        
         <motion.section
           initial={{ opacity: 0, x: -40 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -101,7 +93,6 @@ function App() {
           </div>
         </motion.section>
 
-        {/* Lista de Diseño (Dots) */}
         <motion.section
           initial={{ opacity: 0, x: 40 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -134,5 +125,4 @@ function App() {
     </div>
   );
 }
-
-export default App;
+export default App; 
