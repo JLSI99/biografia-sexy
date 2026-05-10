@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import miFoto from "./assets/guapoide.jpeg";
 
 /**
@@ -40,9 +40,9 @@ export default function App() {
   const techStack = {
     languages: ["C", "C++", "Java", "Python", "JavaScript", "PHP"],
     specialties: [
-      { name: "Fullstack Architecture", icon: "󰄭", level: 95 },
-      { name: "Mobile Development", icon: "󰄋", level: 88 },
-      { name: "Data Intelligence", icon: "󰆧", level: 82 },
+      { name: "Fullstack Architecture", icon: "🏗️", level: 95 },
+      { name: "Mobile Development", icon: "📱", level: 88 },
+      { name: "Data Intelligence", icon: "🧪", level: 82 },
     ],
   };
 
@@ -82,7 +82,7 @@ export default function App() {
             </div>
             <h1 className="text-6xl md:text-8xl font-black text-white tracking-tighter leading-none uppercase">
               JL_DEV<span className="text-cyan-500">.</span><br />
-              <span className="text-outline text-transparent border-white">ENGINEER</span>
+              <span className="text-outline text-transparent" style={{ WebkitTextStroke: "1px rgba(255,255,255,0.2)" }}>ENGINEER</span>
             </h1>
             
             <TerminalPrompt text="Iniciando protocolos Fullstack, Mobile & Data Science..." delay={0.5} />
@@ -108,9 +108,8 @@ export default function App() {
             animate={{ opacity: 1, scale: 1 }}
             className="lg:col-span-5 relative"
           >
-            {/* Marco de Foto Estilo Rice */}
             <div className="relative z-10">
-              <div className="absolute -inset-4 border border-cyan-500/20 animate-[pulse_4s_infinite]" />
+              <div className="absolute -inset-4 border border-cyan-500/20 animate-pulse" />
               <div className="relative overflow-hidden border-2 border-cyan-500 group">
                 <img 
                   src={miFoto} 
@@ -119,7 +118,6 @@ export default function App() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-cyan-900/40 to-transparent opacity-60" />
               </div>
-              {/* Data Overlay en Foto */}
               <div className="absolute top-4 left-4 bg-black/80 p-2 text-[8px] border border-cyan-500/50 text-cyan-400 backdrop-blur-md">
                 <p>NAME: JL_ROOT</p>
                 <p>IP: 192.168.1.1</p>
@@ -165,7 +163,7 @@ export default function App() {
               {techStack.specialties.map((spec, i) => (
                 <div key={i} className="p-6 border border-cyan-900/30 bg-black flex flex-col justify-between group hover:bg-cyan-950/10 transition-all">
                   <div className="text-3xl mb-4 group-hover:scale-110 transition-transform">
-                    {spec.icon === "󰄭" ? "🏗️" : spec.icon === "󰄋" ? "📱" : "🧪"}
+                    {spec.icon}
                   </div>
                   <div>
                     <h4 className="text-white font-bold text-sm uppercase mb-2">{spec.name}</h4>
@@ -192,7 +190,7 @@ export default function App() {
                 apps móviles fluidas y el análisis de <span className="text-emerald-400">Data Science</span> en Python, me permite ofrecer 
                 visiones 360° en proyectos complejos. <br /><br />
                 <span className="text-slate-500 uppercase text-[10px]">
-                  > Status: Siempre optimizando, siempre deconstruyendo.
+                  {"> "} Status: Siempre optimizando, siempre deconstruyendo.
                 </span>
               </p>
             </div>
@@ -200,8 +198,8 @@ export default function App() {
         </section>
       </main>
 
-      {/* --- FOOTER: STATUS BAR STYLE --- */}
-      <footer className="mt-20 border-t border-cyan-900/30 bg-black p-6">
+      {/* --- FOOTER --- */}
+      <footer className="mt-20 border-t border-cyan-900/30 bg-black p-6 text-center md:text-left">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-8 text-[10px] text-slate-500 tracking-widest uppercase">
             <p>© 2026 Crafted by JL-Developments</p>
@@ -216,17 +214,6 @@ export default function App() {
           </div>
         </div>
       </footer>
-
-      {/* --- ESTILOS EXTRA CSS --- */}
-      <style jsx>{`
-        .text-outline {
-          -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
-        }
-        @keyframes pulse {
-          0%, 100% { opacity: 0.2; }
-          50% { opacity: 0.5; }
-        }
-      `}</style>
     </div>
   );
 }
