@@ -36,7 +36,6 @@ const TerminalPrompt = ({ text, delay = 0 }) => {
 };
 
 export default function App() {
-  // Configuración del Stack Tecnológico
   const techStack = {
     languages: ["C", "C++", "Java", "Python", "JavaScript", "PHP"],
     specialties: [
@@ -49,11 +48,11 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-slate-300 font-mono selection:bg-cyan-500/30 overflow-x-hidden relative">
       
-      {/* --- EFECTOS VISUALES DE FONDO (SCANLINES & NOISE) --- */}
+      {/* --- EFECTOS VISUALES --- */}
       <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
       <div className="fixed inset-0 pointer-events-none z-50 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.02),rgba(0,255,0,0.01),rgba(0,0,255,0.02))] bg-[length:100%_4px,3px_100%]" />
 
-      {/* --- HEADER: TOP NAVIGATION / STATUS BAR --- */}
+      {/* --- HEADER --- */}
       <nav className="border-b border-cyan-900/30 bg-black/50 backdrop-blur-xl sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
           <div className="flex items-center gap-4">
@@ -130,7 +129,6 @@ export default function App() {
         {/* --- GRID DE LENGUAJES & SKILLS --- */}
         <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
           
-          {/* LENGUAJES (Módulo Procesos) */}
           <motion.div 
             whileInView={{ opacity: 1 }}
             initial={{ opacity: 0 }}
@@ -157,7 +155,6 @@ export default function App() {
             </div>
           </motion.div>
 
-          {/* ESPECIALIDADES (Módulo Data/Fullstack) */}
           <div className="md:col-span-2 space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
               {techStack.specialties.map((spec, i) => (
@@ -179,7 +176,6 @@ export default function App() {
               ))}
             </div>
 
-            {/* AREA DE TEXTO FILOSÓFICO */}
             <div className="p-8 border border-cyan-900/30 bg-[#0c0c0c] relative overflow-hidden">
               <div className="absolute top-0 right-0 p-4 opacity-10 text-4xl font-black uppercase tracking-tighter">
                 Architecture
@@ -199,7 +195,7 @@ export default function App() {
       </main>
 
       {/* --- FOOTER --- */}
-      <footer className="mt-20 border-t border-cyan-900/30 bg-black p-6 text-center md:text-left">
+      <footer className="mt-20 border-t border-cyan-900/30 bg-black p-6">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-8 text-[10px] text-slate-500 tracking-widest uppercase">
             <p>© 2026 Crafted by JL-Developments</p>
