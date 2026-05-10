@@ -1,128 +1,232 @@
-import { motion } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import miFoto from "./assets/guapoide.jpeg";
 
-function App() {
+/**
+ * COMPONENTE: TerminalPrompt
+ * Simula la escritura de comandos en una terminal Linux.
+ */
+const TerminalPrompt = ({ text, delay = 0 }) => {
+  const [currentText, setCurrentText] = useState("");
+  useEffect(() => {
+    let timeout;
+    if (delay > 0) {
+      timeout = setTimeout(() => startTyping(), delay * 1000);
+    } else {
+      startTyping();
+    }
+
+    function startTyping() {
+      let i = 0;
+      const interval = setInterval(() => {
+        setCurrentText(text.substring(0, i));
+        i++;
+        if (i > text.length) clearInterval(interval);
+      }, 40);
+    }
+    return () => clearTimeout(timeout);
+  }, [text, delay]);
+
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-200 font-sans p-6 md:p-20 selection:bg-blue-500/30">
+    <div className="font-mono text-cyan-500 text-sm md:text-base">
+      <span className="text-emerald-500">jl_root@dev:~$</span> {currentText}
+      <span className="animate-pulse">_</span>
+    </div>
+  );
+};
+
+export default function App() {
+  // Configuración del Stack Tecnológico
+  const techStack = {
+    languages: ["C", "C++", "Java", "Python", "JavaScript", "PHP"],
+    specialties: [
+      { name: "Fullstack Architecture", icon: "󰄭", level: 95 },
+      { name: "Mobile Development", icon: "󰄋", level: 88 },
+      { name: "Data Intelligence", icon: "󰆧", level: 82 },
+    ],
+  };
+
+  return (
+    <div className="min-h-screen bg-[#0a0a0a] text-slate-300 font-mono selection:bg-cyan-500/30 overflow-x-hidden relative">
       
-      <motion.header
-        initial={{ opacity: 0, y: -30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-        className="max-w-5xl mx-auto text-center border-b border-slate-800 pb-16"
-      >
-        <h1 className="text-7xl md:text-9xl font-black tracking-tighter text-white uppercase">
-          JL Developer<span className="text-blue-600 animate-pulse">.</span>
-        </h1>
+      {/* --- EFECTOS VISUALES DE FONDO (SCANLINES & NOISE) --- */}
+      <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+      <div className="fixed inset-0 pointer-events-none z-50 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.02),rgba(0,255,0,0.01),rgba(0,0,255,0.02))] bg-[length:100%_4px,3px_100%]" />
 
-        <div style={{ display: 'block', width: '100%', marginTop: '2.5rem', marginBottom: '2rem' }}>
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.8 }}
-            className="relative group"
-            style={{ 
-              width: "180px", 
-              height: "180px", 
-              marginLeft: "auto", 
-              marginRight: "auto",
-              position: "relative" 
-            }}
-          >
-            <motion.div 
-              className="absolute inset-0 bg-gradient-to-tr from-blue-500 via-indigo-500 to-cyan-400 rounded-full blur-xl group-hover:blur-2xl transition-all duration-700"
-              animate={{ 
-                opacity: [0.4, 0.7, 0.4],
-                scale: [1, 1.05, 1] 
-              }}
-              transition={{ 
-                duration: 4, 
-                repeat: Infinity, 
-                ease: "easeInOut" 
-              }}
-              style={{ zIndex: 0 }}
-            ></motion.div>
-
-            <motion.img
-              whileHover={{ scale: 1.05 }} 
-              src={miFoto}
-              alt="Jorgito"
-              className="grayscale hover:grayscale-0 transition-all duration-700 shadow-2xl border-2 border-white/10"
-              style={{
-                width: "180px",
-                height: "180px",
-                borderRadius: "50%", 
-                objectFit: "cover", 
-                display: "block",
-                position: "relative",
-                zIndex: 10
-              }}
-            />
-          </motion.div>
-        </div>
-
-        <p className="mt-8 text-2xl md:text-3xl text-slate-400 font-light tracking-wide max-w-2xl mx-auto">
-          Ingeniero de Sistemas.{" "}
-          <span className="text-white">Estratega Digital.</span> Arquitecto de
-          lo invisible.
-        </p>
-      </motion.header>
-
-      <main className="max-w-5xl mx-auto mt-24 grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
-        
-        <motion.section
-          initial={{ opacity: 0, x: -40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          className="space-y-8"
-        >
-          <h2 className="text-4xl font-bold text-white tracking-tight">
-            La Filosofía
-          </h2>
-          <p className="text-xl leading-relaxed text-slate-400">
-            No me conformo con lo funcional; busco lo{" "}
-            <span className="text-blue-400">trascendental</span>. Mi enfoque
-            combina la precisión del hardware con la fluidez de una narrativa
-            poética.
-          </p>
-          <div className="bg-slate-900/80 p-8 rounded-xl border-l-8 border-blue-600 shadow-inner">
-            <p className="text-lg italic text-slate-300">
-              "El código es el lenguaje en el que escribo el futuro. Cada línea
-              es un compromiso con la excelencia."
-            </p>
+      {/* --- HEADER: TOP NAVIGATION / STATUS BAR --- */}
+      <nav className="border-b border-cyan-900/30 bg-black/50 backdrop-blur-xl sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
+          <div className="flex items-center gap-4">
+            <div className="w-3 h-3 bg-red-500 rounded-full shadow-[0_0_8px_#ef4444]" />
+            <span className="text-[10px] tracking-widest text-cyan-600 uppercase">System_Active: JL-01</span>
           </div>
-        </motion.section>
+          <div className="hidden md:flex gap-8 text-[10px] tracking-widest text-slate-500 uppercase">
+            <span className="hover:text-cyan-400 cursor-pointer transition-colors">// Root</span>
+            <span className="hover:text-cyan-400 cursor-pointer transition-colors">// Tech_Stack</span>
+            <span className="hover:text-cyan-400 cursor-pointer transition-colors">// Projects</span>
+          </div>
+        </div>
+      </nav>
 
-        <motion.section
-          initial={{ opacity: 0, x: 40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          className="bg-slate-900/30 p-10 rounded-3xl border border-slate-800 backdrop-blur-sm"
-        >
-          <h3 className="text-2xl font-semibold mb-8 text-blue-500 uppercase tracking-widest">
-            Core Intelligence
-          </h3>
-          <ul className="space-y-6">
-            {[
-              "Lógica Multidimensional",
-              "Arquitectura de Microservicios",
-              "Liderazgo Técnico Senior",
-              "Optimización de Alto Rendimiento",
-            ].map((item, index) => (
-              <li key={index} className="flex items-center space-x-4 text-xl">
-                <span className="h-2 w-2 bg-blue-600 rounded-full ring-4 ring-blue-900/50"></span>
-                <span className="text-slate-200">{item}</span>
-              </li>
-            ))}
-          </ul>
-        </motion.section>
+      <main className="max-w-7xl mx-auto px-6 py-12 md:py-24">
+        
+        {/* --- SECCIÓN HERO --- */}
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-32">
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="lg:col-span-7 space-y-6"
+          >
+            <div className="inline-block px-3 py-1 border border-cyan-500/30 bg-cyan-500/5 text-cyan-400 text-xs mb-4">
+              [ ACCESS_GRANTED: SENIOR_LEVEL ]
+            </div>
+            <h1 className="text-6xl md:text-8xl font-black text-white tracking-tighter leading-none uppercase">
+              JL_DEV<span className="text-cyan-500">.</span><br />
+              <span className="text-outline text-transparent border-white">ENGINEER</span>
+            </h1>
+            
+            <TerminalPrompt text="Iniciando protocolos Fullstack, Mobile & Data Science..." delay={0.5} />
+            
+            <p className="max-w-xl text-lg text-slate-400 leading-relaxed font-sans">
+              Especialista en la construcción de ecosistemas digitales de alto rendimiento. 
+              Mi arquitectura fusiona la robustez del bajo nivel (<span className="text-white">C/C++</span>) 
+              con la agilidad del desarrollo moderno.
+            </p>
+
+            <div className="flex gap-4 pt-6">
+              <button className="bg-cyan-600 hover:bg-cyan-500 text-black font-bold py-3 px-8 transition-all flex items-center gap-2 group">
+                INICIAR CONEXIÓN <span className="group-hover:translate-x-1 transition-transform">→</span>
+              </button>
+              <button className="border border-slate-700 hover:border-cyan-500 py-3 px-8 transition-all">
+                VIEW_LOGS
+              </button>
+            </div>
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="lg:col-span-5 relative"
+          >
+            {/* Marco de Foto Estilo Rice */}
+            <div className="relative z-10">
+              <div className="absolute -inset-4 border border-cyan-500/20 animate-[pulse_4s_infinite]" />
+              <div className="relative overflow-hidden border-2 border-cyan-500 group">
+                <img 
+                  src={miFoto} 
+                  alt="JL Developer" 
+                  className="w-full h-auto grayscale group-hover:grayscale-0 transition-all duration-700 contrast-125"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-cyan-900/40 to-transparent opacity-60" />
+              </div>
+              {/* Data Overlay en Foto */}
+              <div className="absolute top-4 left-4 bg-black/80 p-2 text-[8px] border border-cyan-500/50 text-cyan-400 backdrop-blur-md">
+                <p>NAME: JL_ROOT</p>
+                <p>IP: 192.168.1.1</p>
+                <p>ARCH: x86_64</p>
+              </div>
+            </div>
+          </motion.div>
+        </section>
+
+        {/* --- GRID DE LENGUAJES & SKILLS --- */}
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          
+          {/* LENGUAJES (Módulo Procesos) */}
+          <motion.div 
+            whileInView={{ opacity: 1 }}
+            initial={{ opacity: 0 }}
+            className="md:col-span-1 border border-cyan-900/30 bg-cyan-950/5 p-6"
+          >
+            <h3 className="text-cyan-500 text-xs tracking-widest uppercase mb-6 flex justify-between">
+              <span>// Language_Runtime</span>
+              <span className="animate-pulse">●</span>
+            </h3>
+            <div className="grid grid-cols-2 gap-4">
+              {techStack.languages.map((lang) => (
+                <div key={lang} className="p-3 border border-slate-800 bg-black hover:border-cyan-500/50 transition-colors group">
+                  <p className="text-xs text-slate-500 group-hover:text-cyan-400 transition-colors uppercase">{lang}</p>
+                  <div className="h-1 w-full bg-slate-900 mt-2 overflow-hidden">
+                    <motion.div 
+                      initial={{ width: 0 }}
+                      whileInView={{ width: "100%" }}
+                      transition={{ duration: 1.5 }}
+                      className="h-full bg-cyan-600" 
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* ESPECIALIDADES (Módulo Data/Fullstack) */}
+          <div className="md:col-span-2 space-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              {techStack.specialties.map((spec, i) => (
+                <div key={i} className="p-6 border border-cyan-900/30 bg-black flex flex-col justify-between group hover:bg-cyan-950/10 transition-all">
+                  <div className="text-3xl mb-4 group-hover:scale-110 transition-transform">
+                    {spec.icon === "󰄭" ? "🏗️" : spec.icon === "󰄋" ? "📱" : "🧪"}
+                  </div>
+                  <div>
+                    <h4 className="text-white font-bold text-sm uppercase mb-2">{spec.name}</h4>
+                    <div className="w-full bg-slate-800 h-1">
+                      <motion.div 
+                        initial={{ width: 0 }}
+                        whileInView={{ width: `${spec.level}%` }}
+                        className="h-full bg-cyan-500"
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* AREA DE TEXTO FILOSÓFICO */}
+            <div className="p-8 border border-cyan-900/30 bg-[#0c0c0c] relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-4 opacity-10 text-4xl font-black uppercase tracking-tighter">
+                Architecture
+              </div>
+              <h3 className="text-white font-bold mb-4 italic tracking-tight uppercase">Filosofía de Desarrollo</h3>
+              <p className="text-slate-400 text-sm md:text-base leading-relaxed border-l-2 border-cyan-500 pl-6">
+                No me limito a una plataforma. Mi capacidad para transitar entre <span className="text-cyan-400">Java</span> empresarial, 
+                apps móviles fluidas y el análisis de <span className="text-emerald-400">Data Science</span> en Python, me permite ofrecer 
+                visiones 360° en proyectos complejos. <br /><br />
+                <span className="text-slate-500 uppercase text-[10px]">
+                  > Status: Siempre optimizando, siempre deconstruyendo.
+                </span>
+              </p>
+            </div>
+          </div>
+        </section>
       </main>
 
-      <footer className="mt-40 mb-10 text-center">
-        <p className="text-slate-700 uppercase tracking-[0.5em] text-xs">
-          &copy; 2026 Crafted by JL-Developments
-        </p>
+      {/* --- FOOTER: STATUS BAR STYLE --- */}
+      <footer className="mt-20 border-t border-cyan-900/30 bg-black p-6">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="flex items-center gap-8 text-[10px] text-slate-500 tracking-widest uppercase">
+            <p>© 2026 Crafted by JL-Developments</p>
+            <p className="hidden md:block text-emerald-500">Kernel: 6.8.9-arch1-1</p>
+          </div>
+          <div className="flex gap-6">
+            {["GitHub", "LinkedIn", "Twitter"].map(link => (
+              <a key={link} href="#" className="text-[10px] text-cyan-600 hover:text-white transition-colors uppercase tracking-[0.3em]">
+                [{link}]
+              </a>
+            ))}
+          </div>
+        </div>
       </footer>
+
+      {/* --- ESTILOS EXTRA CSS --- */}
+      <style jsx>{`
+        .text-outline {
+          -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
+        }
+        @keyframes pulse {
+          0%, 100% { opacity: 0.2; }
+          50% { opacity: 0.5; }
+        }
+      `}</style>
     </div>
   );
 }
-export default App; 
