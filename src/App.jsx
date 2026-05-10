@@ -10,27 +10,27 @@ const TerminalPrompt = ({ text, delay = 0 }) => {
   const [currentText, setCurrentText] = useState("");
   useEffect(() => {
     let timeout;
-    if (delay > 0) {
-      timeout = setTimeout(() => startTyping(), delay * 1000);
-    } else {
-      startTyping();
-    }
-
-    function startTyping() {
+    const startTyping = () => {
       let i = 0;
       const interval = setInterval(() => {
         setCurrentText(text.substring(0, i));
         i++;
         if (i > text.length) clearInterval(interval);
       }, 40);
+    };
+
+    if (delay > 0) {
+      timeout = setTimeout(() => startTyping(), delay * 1000);
+    } else {
+      startTyping();
     }
     return () => clearTimeout(timeout);
   }, [text, delay]);
 
   return (
-    <div className="font-mono text-cyan-500 text-sm md:text-base">
+    <div className="font-mono text-cyan-500 text-sm md:text-base mb-4">
       <span className="text-emerald-500">jl_root@dev:~$</span> {currentText}
-      <span className="animate-pulse">_</span>
+      <span className="animate-pulse bg-cyan-500 ml-1 inline-block w-2 h-4 align-middle"></span>
     </div>
   );
 };
@@ -46,108 +46,124 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-slate-300 font-mono selection:bg-cyan-500/30 overflow-x-hidden relative">
+    <div className="min-h-screen bg-[#050505] text-slate-300 font-mono selection:bg-cyan-500/30 overflow-x-hidden relative">
       
-      {/* --- EFECTOS VISUALES --- */}
-      <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
-      <div className="fixed inset-0 pointer-events-none z-50 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.02),rgba(0,255,0,0.01),rgba(0,0,255,0.02))] bg-[length:100%_4px,3px_100%]" />
+      {/* --- CAPAS DE EFECTOS VISUALES (SCANLINES & NOISE) --- */}
+      <div className="fixed inset-0 pointer-events-none z-[100] opacity-[0.05] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+      <div className="fixed inset-0 pointer-events-none z-[101] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.03),rgba(0,255,0,0.01),rgba(0,0,255,0.03))] bg-[length:100%_2px,3px_100%]" />
 
-      {/* --- HEADER --- */}
-      <nav className="border-b border-cyan-900/30 bg-black/50 backdrop-blur-xl sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
-          <div className="flex items-center gap-4">
-            <div className="w-3 h-3 bg-red-500 rounded-full shadow-[0_0_8px_#ef4444]" />
-            <span className="text-[10px] tracking-widest text-cyan-600 uppercase">System_Active: JL-01</span>
+      {/* --- NAVBAR --- */}
+      <nav className="border-b border-cyan-900/30 bg-black/80 backdrop-blur-md sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+          <div className="flex items-center gap-3">
+            <div className="w-2 h-2 bg-emerald-500 rounded-full animate-ping" />
+            <span className="text-[10px] tracking-[0.2em] text-cyan-500 uppercase font-bold">System_Online: JL-V.2.6</span>
           </div>
           <div className="hidden md:flex gap-8 text-[10px] tracking-widest text-slate-500 uppercase">
-            <span className="hover:text-cyan-400 cursor-pointer transition-colors">// Root</span>
-            <span className="hover:text-cyan-400 cursor-pointer transition-colors">// Tech_Stack</span>
-            <span className="hover:text-cyan-400 cursor-pointer transition-colors">// Projects</span>
+            <span className="hover:text-cyan-400 cursor-pointer transition-all hover:tracking-[0.3em] font-bold">// Root</span>
+            <span className="hover:text-cyan-400 cursor-pointer transition-all hover:tracking-[0.3em] font-bold">// Stack</span>
+            <span className="hover:text-cyan-400 cursor-pointer transition-all hover:tracking-[0.3em] font-bold">// Logs</span>
           </div>
         </div>
       </nav>
 
-      <main className="max-w-7xl mx-auto px-6 py-12 md:py-24">
+      <main className="max-w-7xl mx-auto px-6 py-12 md:py-20">
         
-        {/* --- SECCIÓN HERO --- */}
-        <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-32">
+        {/* --- HERO SECTION --- */}
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start mb-32">
           <motion.div 
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="lg:col-span-7 space-y-6"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="lg:col-span-7 space-y-8"
           >
-            <div className="inline-block px-3 py-1 border border-cyan-500/30 bg-cyan-500/5 text-cyan-400 text-xs mb-4">
-              [ ACCESS_GRANTED: SENIOR_LEVEL ]
+            <div className="inline-flex items-center gap-2 px-3 py-1 border border-cyan-500/30 bg-cyan-500/5 text-cyan-400 text-[10px] uppercase tracking-tighter">
+              <span className="w-2 h-2 bg-cyan-400 rounded-full" />
+              Access_Level: Senior_Engineer
             </div>
-            <h1 className="text-6xl md:text-8xl font-black text-white tracking-tighter leading-none uppercase">
+
+            <h1 className="text-5xl md:text-8xl font-black text-white tracking-tighter leading-[0.9] uppercase">
               JL_DEV<span className="text-cyan-500">.</span><br />
-              <span className="text-outline text-transparent" style={{ WebkitTextStroke: "1px rgba(255,255,255,0.2)" }}>ENGINEER</span>
+              <span className="text-transparent" style={{ WebkitTextStroke: "1px rgba(255,255,255,0.3)" }}>SYSTEMS</span>
             </h1>
             
-            <TerminalPrompt text="Iniciando protocolos Fullstack, Mobile & Data Science..." delay={0.5} />
+            <TerminalPrompt text="Ejecutando despliegue de arquitectura escalable..." delay={1} />
             
-            <p className="max-w-xl text-lg text-slate-400 leading-relaxed font-sans">
-              Especialista en la construcción de ecosistemas digitales de alto rendimiento. 
-              Mi arquitectura fusiona la robustez del bajo nivel (<span className="text-white">C/C++</span>) 
-              con la agilidad del desarrollo moderno.
+            <p className="max-w-xl text-lg text-slate-400 leading-relaxed font-sans border-l-2 border-slate-800 pl-6">
+              Ingeniero de Sistemas enfocado en la deconstrucción de problemas complejos. 
+              Fusión de <span className="text-cyan-400 font-bold">Microservicios</span>, 
+              <span className="text-emerald-400 font-bold">Deep Learning</span> y 
+              <span className="text-white font-bold">UX Core</span>.
             </p>
 
-            <div className="flex gap-4 pt-6">
-              <button className="bg-cyan-600 hover:bg-cyan-500 text-black font-bold py-3 px-8 transition-all flex items-center gap-2 group">
-                INICIAR CONEXIÓN <span className="group-hover:translate-x-1 transition-transform">→</span>
+            <div className="flex flex-wrap gap-4 pt-4">
+              <button className="bg-cyan-600 hover:bg-cyan-400 text-black font-black py-4 px-10 transition-all transform hover:scale-105 active:scale-95 flex items-center gap-3">
+                DEPLOY_CONNECTION <span>_&gt;</span>
               </button>
-              <button className="border border-slate-700 hover:border-cyan-500 py-3 px-8 transition-all">
-                VIEW_LOGS
+              <button className="border border-slate-700 hover:border-cyan-500 py-4 px-10 transition-all font-bold text-sm tracking-widest">
+                FETCH_REPOS
               </button>
             </div>
           </motion.div>
 
+          {/* CONTENEDOR DE IMAGEN (SOLUCIÓN AL TAMAÑO) */}
           <motion.div 
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="lg:col-span-5 relative"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="lg:col-span-5 flex justify-center lg:justify-end"
           >
-            <div className="relative z-10">
-              <div className="absolute -inset-4 border border-cyan-500/20 animate-pulse" />
-              <div className="relative overflow-hidden border-2 border-cyan-500 group">
+            <div className="relative w-full max-w-[400px] aspect-square">
+              {/* Decoración Frame Tech */}
+              <div className="absolute -top-4 -left-4 w-20 h-20 border-t-2 border-l-2 border-cyan-500 z-20" />
+              <div className="absolute -bottom-4 -right-4 w-20 h-20 border-b-2 border-r-2 border-cyan-500 z-20" />
+              
+              <div className="relative overflow-hidden w-full h-full border border-white/10 group">
                 <img 
                   src={miFoto} 
-                  alt="JL Developer" 
-                  className="w-full h-auto grayscale group-hover:grayscale-0 transition-all duration-700 contrast-125"
+                  alt="JL_ENGINEER" 
+                  className="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-1000 transform group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-cyan-900/40 to-transparent opacity-60" />
-              </div>
-              <div className="absolute top-4 left-4 bg-black/80 p-2 text-[8px] border border-cyan-500/50 text-cyan-400 backdrop-blur-md">
-                <p>NAME: JL_ROOT</p>
-                <p>IP: 192.168.1.1</p>
-                <p>ARCH: x86_64</p>
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-cyan-900/20" />
+                
+                {/* HUD Overlay */}
+                <div className="absolute bottom-6 left-6 right-6 bg-black/60 backdrop-blur-md border border-white/10 p-4 transform translate-y-2 group-hover:translate-y-0 transition-transform">
+                  <div className="flex justify-between items-end">
+                    <div>
+                      <p className="text-[8px] text-cyan-500 font-bold uppercase tracking-[0.2em] mb-1">Status_Check</p>
+                      <p className="text-xs text-white font-black uppercase">Architect: Active</p>
+                    </div>
+                    <p className="text-[10px] text-emerald-400 font-mono">OK_200</p>
+                  </div>
+                </div>
               </div>
             </div>
           </motion.div>
         </section>
 
-        {/* --- GRID DE LENGUAJES & SKILLS --- */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          
+        {/* --- GRID DE LENGUAJES --- */}
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
           <motion.div 
-            whileInView={{ opacity: 1 }}
             initial={{ opacity: 0 }}
-            className="md:col-span-1 border border-cyan-900/30 bg-cyan-950/5 p-6"
+            whileInView={{ opacity: 1 }}
+            className="md:col-span-1 border border-white/5 bg-white/[0.02] p-8 relative group"
           >
-            <h3 className="text-cyan-500 text-xs tracking-widest uppercase mb-6 flex justify-between">
-              <span>// Language_Runtime</span>
-              <span className="animate-pulse">●</span>
+            <div className="absolute top-0 left-0 w-1 h-full bg-cyan-600 scale-y-0 group-hover:scale-y-100 transition-transform duration-500 origin-top" />
+            <h3 className="text-cyan-500 text-xs font-black tracking-widest uppercase mb-10 flex items-center gap-4">
+              <span className="w-8 h-[1px] bg-cyan-900" /> 
+              Core_Runtimes
             </h3>
             <div className="grid grid-cols-2 gap-4">
-              {techStack.languages.map((lang) => (
-                <div key={lang} className="p-3 border border-slate-800 bg-black hover:border-cyan-500/50 transition-colors group">
-                  <p className="text-xs text-slate-500 group-hover:text-cyan-400 transition-colors uppercase">{lang}</p>
-                  <div className="h-1 w-full bg-slate-900 mt-2 overflow-hidden">
+              {techStack.languages.map((lang, idx) => (
+                <div key={idx} className="p-4 border border-white/5 bg-black hover:border-cyan-500/40 transition-all group/item">
+                  <p className="text-[10px] text-slate-500 font-bold group-hover/item:text-cyan-400 uppercase mb-2">{lang}</p>
+                  <div className="h-[2px] w-full bg-slate-900 overflow-hidden">
                     <motion.div 
-                      initial={{ width: 0 }}
-                      whileInView={{ width: "100%" }}
-                      transition={{ duration: 1.5 }}
-                      className="h-full bg-cyan-600" 
+                      initial={{ x: "-100%" }}
+                      whileInView={{ x: 0 }}
+                      transition={{ delay: idx * 0.1, duration: 1 }}
+                      className="h-full bg-cyan-500" 
                     />
                   </div>
                 </div>
@@ -155,55 +171,60 @@ export default function App() {
             </div>
           </motion.div>
 
-          <div className="md:col-span-2 space-y-6">
+          <div className="md:col-span-2 space-y-8">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
               {techStack.specialties.map((spec, i) => (
-                <div key={i} className="p-6 border border-cyan-900/30 bg-black flex flex-col justify-between group hover:bg-cyan-950/10 transition-all">
-                  <div className="text-3xl mb-4 group-hover:scale-110 transition-transform">
-                    {spec.icon}
-                  </div>
-                  <div>
-                    <h4 className="text-white font-bold text-sm uppercase mb-2">{spec.name}</h4>
-                    <div className="w-full bg-slate-800 h-1">
+                <motion.div 
+                  key={i} 
+                  whileHover={{ y: -5 }}
+                  className="p-8 border border-white/5 bg-white/[0.01] hover:bg-white/[0.03] transition-all relative"
+                >
+                  <span className="text-4xl mb-6 block filter drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]">{spec.icon}</span>
+                  <h4 className="text-white font-black text-xs uppercase mb-4 tracking-tighter">{spec.name}</h4>
+                  <div className="flex items-center gap-3">
+                    <div className="flex-1 bg-slate-900 h-[1px]">
                       <motion.div 
                         initial={{ width: 0 }}
                         whileInView={{ width: `${spec.level}%` }}
-                        className="h-full bg-cyan-500"
+                        className="h-full bg-emerald-500"
                       />
                     </div>
+                    <span className="text-[10px] font-mono text-emerald-500 font-bold">{spec.level}%</span>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
 
-            <div className="p-8 border border-cyan-900/30 bg-[#0c0c0c] relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-4 opacity-10 text-4xl font-black uppercase tracking-tighter">
-                Architecture
+            {/* FILOSOFÍA */}
+            <motion.div 
+               initial={{ opacity: 0, scale: 0.95 }}
+               whileInView={{ opacity: 1, scale: 1 }}
+               className="p-10 border border-cyan-900/20 bg-black relative overflow-hidden group"
+            >
+              <div className="absolute top-0 right-0 p-6 opacity-[0.03] text-7xl font-black uppercase italic pointer-events-none">
+                Logic
               </div>
-              <h3 className="text-white font-bold mb-4 italic tracking-tight uppercase">Filosofía de Desarrollo</h3>
-              <p className="text-slate-400 text-sm md:text-base leading-relaxed border-l-2 border-cyan-500 pl-6">
-                No me limito a una plataforma. Mi capacidad para transitar entre <span className="text-cyan-400">Java</span> empresarial, 
-                apps móviles fluidas y el análisis de <span className="text-emerald-400">Data Science</span> en Python, me permite ofrecer 
-                visiones 360° en proyectos complejos. <br /><br />
-                <span className="text-slate-500 uppercase text-[10px]">
-                  {"> "} Status: Siempre optimizando, siempre deconstruyendo.
+              <h3 className="text-white font-black mb-6 italic tracking-[0.2em] uppercase text-xs">// Manifiesto_Técnico</h3>
+              <p className="text-slate-400 text-sm md:text-lg leading-relaxed font-sans max-w-2xl border-l border-cyan-500/30 pl-8">
+                No construyo solo código, diseño <span className="text-white font-bold underline decoration-cyan-500">sistemas de pensamiento</span>. 
+                Mi enfoque une la eficiencia de bajo nivel con la abstracción analítica de los datos. <br /><br />
+                <span className="text-cyan-500 text-[10px] font-black uppercase tracking-[0.3em]">
+                  {"> "} Status: Optimización_Constante
                 </span>
               </p>
-            </div>
+            </motion.div>
           </div>
         </section>
       </main>
 
-      {/* --- FOOTER --- */}
-      <footer className="mt-20 border-t border-cyan-900/30 bg-black p-6">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex items-center gap-8 text-[10px] text-slate-500 tracking-widest uppercase">
-            <p>© 2026 Crafted by JL-Developments</p>
-            <p className="hidden md:block text-emerald-500">Kernel: 6.8.9-arch1-1</p>
+      <footer className="border-t border-white/5 bg-black p-10">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+          <div className="text-[9px] text-slate-600 tracking-[0.4em] uppercase font-bold">
+            © 2026 Crafted_by_JL_Engine / Kernel_v6.8
           </div>
-          <div className="flex gap-6">
-            {["GitHub", "LinkedIn", "Twitter"].map(link => (
-              <a key={link} href="#" className="text-[10px] text-cyan-600 hover:text-white transition-colors uppercase tracking-[0.3em]">
+          <div className="flex gap-10">
+            {["GitHub", "LinkedIn", "Docs"].map(link => (
+              <a key={link} href="#" className="text-[10px] text-cyan-700 hover:text-white transition-all uppercase font-black hover:tracking-[0.2em]">
                 [{link}]
               </a>
             ))}
